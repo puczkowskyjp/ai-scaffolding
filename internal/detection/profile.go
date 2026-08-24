@@ -1,7 +1,9 @@
 package detection
 
+// Architecture describes the high-level structural style of a project.
 type Architecture string
 
+// Supported Architecture values.
 const (
 	ArchitectureUnknown         Architecture = "unknown"
 	ArchitectureMonolith        Architecture = "monolith"
@@ -10,6 +12,8 @@ const (
 	ArchitectureServerless      Architecture = "serverless"
 )
 
+// ProjectProfile holds the detected characteristics of a repository, including
+// the technologies in use and the chosen deployment architecture.
 type ProjectProfile struct {
 	IsDotNet     bool
 	IsReact      bool

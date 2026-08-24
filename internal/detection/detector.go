@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+// IsDotNetProject reports whether root contains a .NET project by searching for
+// .csproj or .sln files.
 func IsDotNetProject(root string) bool {
 	var found bool
 
@@ -26,6 +28,8 @@ func IsDotNetProject(root string) bool {
 	return found
 }
 
+// IsViteProject reports whether root contains a Vite project by searching for
+// a Vite configuration file (vite.config.ts, vite.config.js, etc.).
 func IsViteProject(root string) bool {
 	var found bool
 
@@ -47,6 +51,8 @@ func IsViteProject(root string) bool {
 	return found
 }
 
+// IsReactProject reports whether root contains a React project by searching for
+// .tsx or .jsx source files.
 func IsReactProject(root string) bool {
 	var found bool
 
@@ -67,6 +73,8 @@ func IsReactProject(root string) bool {
 	return found
 }
 
+// IsPostgresProject reports whether root uses PostgreSQL by scanning .csproj and
+// docker-compose files for references to npgsql or postgres.
 func IsPostgresProject(root string) bool {
 	var found bool
 
@@ -97,6 +105,8 @@ func IsPostgresProject(root string) bool {
 	return found
 }
 
+// Detect scans the repository at root and returns a ProjectProfile describing
+// the technologies detected (e.g. .NET, React, Vite, PostgreSQL).
 func Detect(root string) ProjectProfile {
 	profile := ProjectProfile{
 		IsDotNet:   IsDotNetProject(root),
