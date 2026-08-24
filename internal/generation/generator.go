@@ -10,11 +10,16 @@ import (
 	"github.com/puczkowskyjp/ai-scaffold/internal/planning"
 )
 
+// GenerationContext bundles the data that is available to agent and instruction
+// templates during rendering.
 type GenerationContext struct {
 	Profile detection.ProjectProfile
 	Plan    planning.AgentPlan
 }
 
+// Generate renders agent templates and the copilot-instructions file into the
+// target repository at root. It uses templateRoot as the base directory for
+// template files and skips any agent whose template is not found.
 func Generate(
 	root string,
 	templateRoot string,
@@ -72,6 +77,8 @@ func Generate(
 	return nil
 }
 
+// GetTemplateRoot returns the absolute path of the templates directory relative
+// to the current working directory.
 func GetTemplateRoot() (string, error) {
 	return filepath.Abs("templates")
 }
