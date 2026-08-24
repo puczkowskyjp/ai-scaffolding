@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"text/template"
 
-	"github.com/puczkowskyjp/ai-scaffold/internal/detection"
-	"github.com/puczkowskyjp/ai-scaffold/internal/planning"
+	"github.com/puczkowskyjp/ai-scaffolding/internal/detection"
+	"github.com/puczkowskyjp/ai-scaffolding/internal/planning"
 )
 
 // GenerationContext bundles the data that is available to agent and instruction
