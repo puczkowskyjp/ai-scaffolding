@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/puczkowskyjp/ai-scaffold/internal/detection"
-	"github.com/puczkowskyjp/ai-scaffold/internal/generation"
-	"github.com/puczkowskyjp/ai-scaffold/internal/planning"
+	"github.com/puczkowskyjp/ai-scaffolding/internal/detection"
+	"github.com/puczkowskyjp/ai-scaffolding/internal/generation"
+	"github.com/puczkowskyjp/ai-scaffolding/internal/planning"
 )
 
 func main() {

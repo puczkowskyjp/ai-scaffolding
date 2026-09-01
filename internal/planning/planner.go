@@ -1,6 +1,6 @@
 package planning
 
-import "github.com/puczkowskyjp/ai-scaffold/internal/detection"
+import "github.com/puczkowskyjp/ai-scaffolding/internal/detection"
 
 const (
 	// AgentArchitect is the name of the architect agent that coordinates
