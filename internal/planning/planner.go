@@ -30,6 +30,25 @@ type AgentPlan struct {
 	Agents []Agent
 }
 
+// ApplySelection returns a copy of plan with only the enabled agents retained.
+func ApplySelection(plan AgentPlan, enabled []bool) (AgentPlan, error) {
+	if len(enabled) != len(plan.Agents) {
+		return AgentPlan{}, ErrInvalidSelection
+	}
+
+	selected := AgentPlan{
+		Agents: make([]Agent, 0, len(plan.Agents)),
+	}
+
+	for index, agent := range plan.Agents {
+		if enabled[index] {
+			selected.Agents = append(selected.Agents, agent)
+		}
+	}
+
+	return selected, nil
+}
+
 // BuildPlan constructs an AgentPlan based on the detected project profile and
 // the user's choices about testing and adversary agents. The returned plan
 // lists agents in the order they should be generated.

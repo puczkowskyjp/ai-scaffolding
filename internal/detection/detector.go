@@ -1,6 +1,7 @@
 package detection
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -107,29 +108,56 @@ func IsPostgresProject(root string) bool {
 
 // Detect scans the repository at root and returns a ProjectProfile describing
 // the technologies detected (e.g. .NET, React, Vite, PostgreSQL).
-func Detect(root string) ProjectProfile {
+func Detect(root string) (ProjectProfile, error) {
+	absRoot, err := filepath.Abs(root)
+	if err != nil {
+		return ProjectProfile{}, fmt.Errorf("resolve target directory: %w", err)
+	}
+
+	info, err := os.Stat(absRoot)
+	if err != nil {
+		return ProjectProfile{}, fmt.Errorf("inspect target directory: %w", err)
+	}
+
+	if !info.IsDir() {
+		return ProjectProfile{}, fmt.Errorf("target path is not a directory: %s", absRoot)
+	}
+
 	profile := ProjectProfile{
-		IsDotNet:   IsDotNetProject(root),
-		IsReact:    IsReactProject(root),
-		IsVite:     IsViteProject(root),
-		IsPostgres: IsPostgresProject(root),
+		Name:         filepath.Base(absRoot),
+		IsDotNet:     IsDotNetProject(absRoot),
+		IsReact:      IsReactProject(absRoot),
+		IsVite:       IsViteProject(absRoot),
+		IsPostgres:   IsPostgresProject(absRoot),
+		Architecture: ArchitectureUnknown,
 	}
 
 	if profile.IsDotNet {
+		profile.Languages = append(profile.Languages, "C#")
+		profile.Frameworks = append(profile.Frameworks, ".NET")
+		profile.ProjectTypes = append(profile.ProjectTypes, "Application")
+		profile.Characteristics = append(profile.Characteristics, ".NET application")
 		profile.Technologies = append(profile.Technologies, ".NET")
 	}
 
 	if profile.IsReact {
+		profile.Languages = append(profile.Languages, "JavaScript/TypeScript")
+		profile.Frameworks = append(profile.Frameworks, "React")
+		profile.ProjectTypes = append(profile.ProjectTypes, "Frontend")
+		profile.Characteristics = append(profile.Characteristics, "React frontend")
 		profile.Technologies = append(profile.Technologies, "React")
 	}
 
 	if profile.IsVite {
+		profile.Frameworks = append(profile.Frameworks, "Vite")
+		profile.Characteristics = append(profile.Characteristics, "Vite tooling")
 		profile.Technologies = append(profile.Technologies, "Vite")
 	}
 
 	if profile.IsPostgres {
+		profile.Characteristics = append(profile.Characteristics, "PostgreSQL")
 		profile.Technologies = append(profile.Technologies, "PostgreSQL")
 	}
 
-	return profile
+	return profile, nil
 }
