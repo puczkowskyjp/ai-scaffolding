@@ -17,6 +17,20 @@ type GenerationContext struct {
 	Plan    planning.AgentPlan
 }
 
+// PlannedFiles returns the relative file paths that Generate will attempt to
+// create for the provided plan.
+func PlannedFiles(plan planning.AgentPlan) []string {
+	files := []string{
+		filepath.Join(".github", "copilot-instructions.md"),
+	}
+
+	for _, agent := range plan.Agents {
+		files = append(files, filepath.Join(".github", "agents", getTemplateName(agent)))
+	}
+
+	return files
+}
+
 // Generate renders agent templates and the copilot-instructions file into the
 // target repository at root. It uses templateRoot as the base directory for
 // template files and skips any agent whose template is not found.

@@ -15,10 +15,16 @@ const (
 // ProjectProfile holds the detected characteristics of a repository, including
 // the technologies in use and the chosen deployment architecture.
 type ProjectProfile struct {
-	IsDotNet     bool
-	IsReact      bool
-	IsVite       bool
-	IsPostgres   bool
-	Architecture Architecture
-	Technologies []string
+	Name         string
+	Languages    []string
+	Frameworks   []string
+	ProjectTypes []string
+
+	IsDotNet        bool
+	IsReact         bool
+	IsVite          bool
+	IsPostgres      bool
+	Architecture    Architecture
+	Technologies    []string
+	Characteristics []string
 }
